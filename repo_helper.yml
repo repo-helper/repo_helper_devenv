@@ -16,3 +16,7 @@ enable_docs: False
 entry_points:
  repo_helper.command:
   - repo_helper_devenv=repo_helper_devenv:devenv
+
+keywords:
+ - virtualenv
+ - repo-helper

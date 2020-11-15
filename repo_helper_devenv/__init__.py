@@ -38,6 +38,7 @@ import sys
 import click
 import repo_helper
 import virtualenv
+from consolekit.terminal_colours import Fore, resolve_color_default
 from domdf_python_tools.paths import PathPlus
 from domdf_python_tools.stringlist import DelimitedList
 from repo_helper.cli import cli_command
@@ -100,6 +101,9 @@ def devenv():
 	if not seeder.enabled:
 		sys.exit(1)
 
+	with of_session:
+		of_session.run()
+
 	# Install requirements
 	cmd = [
 			creator.exe,
@@ -122,7 +126,4 @@ def devenv():
 			pip_wheel_env_run(seeder.extra_search_dir, seeder.app_data),
 			)
 
-	with of_session:
-		of_session.run()
-
-	click.echo("Successfully created development virtualenv.")
+	click.echo(Fore.GREEN("\nSuccessfully created development virtualenv."), color=resolve_color_default())
