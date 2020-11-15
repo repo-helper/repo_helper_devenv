@@ -1,0 +1,4 @@
+click>=7.1.2
+domdf-python-tools>=1.5.0
+repo-helper>=2020.11.13
+virtualenv>=20.1.0
