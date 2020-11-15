@@ -2,7 +2,7 @@
 #
 #  __init__.py
 """
-Create virtualenvs with repo-helper.
+Create virtual environments with repo-helper.
 """
 #
 #  Copyright © 2020 Dominic Davis-Foster <dominic@davis-foster.co.uk>
@@ -91,7 +91,7 @@ def devenv():
 	venvdir = rh.target_repo / "venv"
 	args = (str(venvdir), "--prompt", f"({modname}) ", "--seeder", "pip", "--download")
 
-	parser, elements = build_parser(args, None, True)
+	parser, elements = build_parser(args)
 	options = parser.parse_args(args)
 
 	creator, seeder, activators = tuple(e.create(options) for e in elements)  # create types

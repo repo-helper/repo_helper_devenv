@@ -4,7 +4,7 @@ repo_helper_devenv
 
 .. start short_desc
 
-**Create virtualenvs with repo-helper.**
+**Create virtual environments with repo-helper.**
 
 .. end short_desc
 

@@ -7,7 +7,7 @@ email: 'dominic@davis-foster.co.uk'
 username: 'domdfcoding'
 version: '0.0.0'
 license: 'MIT'
-short_desc: "Create virtualenvs with repo-helper."
+short_desc: "Create virtual environments with repo-helper."
 
 enable_conda: False
 enable_tests: False
