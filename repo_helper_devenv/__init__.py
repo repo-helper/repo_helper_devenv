@@ -37,15 +37,14 @@ import sys
 # 3rd party
 import click
 import repo_helper
-import virtualenv
+import virtualenv  # type: ignore
 from consolekit.terminal_colours import Fore, resolve_color_default
 from domdf_python_tools.paths import PathPlus
 from domdf_python_tools.stringlist import DelimitedList
 from repo_helper.cli import cli_command
 from repo_helper.core import RepoHelper
-from virtualenv.run import build_parser
-from virtualenv.run.session import Session
-from virtualenv.seed.wheels import pip_wheel_env_run
+from virtualenv.run import session_via_cli  # type: ignore
+from virtualenv.seed.wheels import pip_wheel_env_run  # type: ignore
 
 __all__ = ["version_callback", "devenv"]
 
@@ -92,13 +91,9 @@ def devenv():
 	venvdir = rh.target_repo / "venv"
 	args = (str(venvdir), "--prompt", f"({modname}) ", "--seeder", "pip", "--download")
 
-	parser, elements = build_parser(args)
-	options = parser.parse_args(args)
+	of_session = session_via_cli(args)
 
-	creator, seeder, activators = tuple(e.create(options) for e in elements)  # create types
-	of_session = Session(options.verbosity, options.app_data, parser._interpreter, creator, seeder, activators)
-
-	if not seeder.enabled:
+	if not of_session.seeder.enabled:
 		sys.exit(1)
 
 	with of_session:
@@ -106,7 +101,7 @@ def devenv():
 
 	# Install requirements
 	cmd = [
-			creator.exe,
+			of_session.creator.exe,
 			"-m",
 			"pip",
 			"install",
@@ -121,9 +116,9 @@ def devenv():
 				rh.target_repo / rh.templates.globals["tests_dir"] / "requirements.txt",
 				])
 
-	seeder._execute(
+	of_session.seeder._execute(
 			[str(x) for x in cmd],
-			pip_wheel_env_run(seeder.extra_search_dir, seeder.app_data),
+			pip_wheel_env_run(of_session.seeder.extra_search_dir, of_session.seeder.app_data),
 			)
 
 	click.echo(Fore.GREEN("\nSuccessfully created development virtualenv."), color=resolve_color_default())
