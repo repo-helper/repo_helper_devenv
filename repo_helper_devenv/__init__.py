@@ -33,11 +33,13 @@ Create virtual environments with repo-helper.
 
 # stdlib
 import sys
+from typing import Optional
 
 # 3rd party
 import click
 import repo_helper
 import virtualenv  # type: ignore
+from consolekit.options import colour_option, verbose_option
 from consolekit.terminal_colours import Fore, resolve_color_default
 from domdf_python_tools.paths import PathPlus
 from domdf_python_tools.stringlist import DelimitedList
@@ -46,13 +48,13 @@ from repo_helper.core import RepoHelper
 from virtualenv.run import session_via_cli  # type: ignore
 from virtualenv.seed.wheels import pip_wheel_env_run  # type: ignore
 
-__all__ = ["version_callback", "devenv"]
-
 __author__: str = "Dominic Davis-Foster"
 __copyright__: str = "2020 Dominic Davis-Foster"
 __license__: str = "MIT License"
 __version__: str = "0.0.0"
 __email__: str = "dominic@davis-foster.co.uk"
+
+__all__ = ["devenv"]
 
 
 def version_callback(ctx, param, value):
@@ -71,6 +73,12 @@ def version_callback(ctx, param, value):
 	ctx.exit()
 
 
+@verbose_option()
+@click.argument(
+		"dest",
+		type=click.STRING,
+		default="venv",
+		)
 @click.option(
 		"--version",
 		count=True,
@@ -79,8 +87,9 @@ def version_callback(ctx, param, value):
 		help="Show the version and exit.",
 		callback=version_callback,
 		)
+@colour_option()
 @cli_command()
-def devenv():
+def devenv(dest: str = "venv", verbose: int = 0, colour: Optional[bool] = None):
 	"""
 	Create a virtualenv.
 	"""
@@ -88,8 +97,12 @@ def devenv():
 	rh = RepoHelper(PathPlus.cwd())
 	modname = rh.templates.globals["modname"]
 
-	venvdir = rh.target_repo / "venv"
-	args = (str(venvdir), "--prompt", f"({modname}) ", "--seeder", "pip", "--download")
+	venvdir = rh.target_repo / dest
+	args = [str(venvdir), "--prompt", f"({modname}) ", "--seeder", "pip", "--download"]
+	if verbose:
+		args.append("--verbose")
+	if verbose >= 2:
+		args.append("--verbose")
 
 	of_session = session_via_cli(args)
 
@@ -110,6 +123,11 @@ def devenv():
 			rh.target_repo / "requirements.txt",
 			]
 
+	if not verbose:
+		cmd.append("--quiet")
+	elif verbose >= 2:
+		cmd.append("--verbose")
+
 	if rh.templates.globals["enable_tests"]:
 		cmd.extend([
 				"-r",
@@ -121,4 +139,10 @@ def devenv():
 			pip_wheel_env_run(of_session.seeder.extra_search_dir, of_session.seeder.app_data),
 			)
 
-	click.echo(Fore.GREEN("\nSuccessfully created development virtualenv."), color=resolve_color_default())
+	if verbose:
+		click.echo('')
+
+	click.echo(
+			Fore.GREEN("Successfully created development virtualenv."),
+			color=resolve_color_default(colour),
+			)
