@@ -28,4 +28,4 @@ python_versions:
  - 3.10-dev
 
 extra_sphinx_extensions:
- - sphinx_click_tweak
+ - sphinx_click
