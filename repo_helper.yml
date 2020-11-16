@@ -11,7 +11,6 @@ short_desc: "Create virtual environments with repo-helper."
 
 enable_conda: False
 enable_tests: False
-enable_docs: False
 
 entry_points:
  repo_helper.command:
@@ -27,3 +26,6 @@ python_versions:
  - 3.8
  - 3.9
  - 3.10-dev
+
+extra_sphinx_extensions:
+ - sphinx_click_tweak
