@@ -28,7 +28,7 @@ import sphinx_click
 from docutils import nodes
 from docutils.statemachine import ViewList
 from sphinx.util.docutils import SphinxDirective
-from sphinx_click.ext import _indent, CLICK_VERSION, NESTED_FULL, NESTED_SHORT, ClickDirective, _format_command
+from sphinx_click.ext import CLICK_VERSION, NESTED_FULL, NESTED_SHORT, ClickDirective, _format_command, _indent
 from sphinx_toolbox.utils import Purger
 
 click_purger = Purger("all_click")
@@ -103,8 +103,11 @@ class NoHeadingClickDirective(SphinxDirective):
 
 
 def _format_argument(arg):
-	"""Format the output of a `click.Argument`."""
-	yield '.. option:: {}'.format(arg.human_readable_name)
+	"""
+	Format the output of a `click.Argument`.
+	"""
+
+	yield f'.. option:: {arg.human_readable_name}'
 	yield ''
 
 	if arg.required:
