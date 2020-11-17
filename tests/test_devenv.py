@@ -6,10 +6,9 @@ from click.testing import CliRunner, Result
 from domdf_python_tools.paths import PathPlus, in_directory
 from domdf_python_tools.utils import strtobool
 from dulwich.repo import Repo
-
-# this package
 from pytest_regressions.file_regression import FileRegressionFixture
 
+# this package
 from repo_helper_devenv import __version__, devenv
 
 
@@ -67,13 +66,16 @@ def test_devenv(temp_repo: Repo):
 
 
 @pytest.mark.parametrize("tests", [True, False])
-@pytest.mark.parametrize("extra_args", [
-		pytest.param(("--verbose", ), id="verbose"),
-		pytest.param(("--verbose", "--verbose"), id="very verbose"),
-		pytest.param(("-v", ), id="verbose short"),
-		pytest.param(("-v", "--verbose"), id="very verbose short"),
-		pytest.param(("-vv", ), id="very verbose short short"),
-		])
+@pytest.mark.parametrize(
+		"extra_args",
+		[
+				pytest.param(("--verbose", ), id="verbose"),
+				pytest.param(("--verbose", "--verbose"), id="very verbose"),
+				pytest.param(("-v", ), id="verbose short"),
+				pytest.param(("-v", "--verbose"), id="very verbose short"),
+				pytest.param(("-vv", ), id="very verbose short short"),
+				]
+		)
 def test_devenv_verbose(temp_repo: Repo, extra_args, tests):
 	lib_requirements = [
 			"click",
@@ -96,7 +98,7 @@ def test_devenv_verbose(temp_repo: Repo, extra_args, tests):
 		(repo_path / "tests").mkdir()
 		(repo_path / "tests/requirements.txt").write_lines(test_requirements)
 	else:
-		with (repo_path / "repo_helper.yml").open("a") as fp:
+		with (repo_path / "repo_helper.yml").open('a') as fp:
 			fp.write("enable_tests: false")
 
 	with in_directory(temp_repo.path):
@@ -111,10 +113,13 @@ def test_devenv_verbose(temp_repo: Repo, extra_args, tests):
 		assert "Installing test requirements." in result.stdout
 
 
-@pytest.mark.parametrize("extra_args", [
-		pytest.param(("--version", ), id="version"),
-		pytest.param(("--version", "--version"), id="version_version"),
-		])
+@pytest.mark.parametrize(
+		"extra_args",
+		[
+				pytest.param(("--version", ), id="version"),
+				pytest.param(("--version", "--version"), id="version_version"),
+				]
+		)
 def test_version(tmp_pathplus, extra_args, file_regression: FileRegressionFixture):
 
 	with in_directory(tmp_pathplus):
