@@ -39,6 +39,7 @@ from typing import Optional
 import click
 import repo_helper
 import virtualenv  # type: ignore
+from click import ClickException
 from consolekit.options import colour_option, verbose_option
 from consolekit.terminal_colours import Fore, resolve_color_default
 from domdf_python_tools.paths import PathPlus
@@ -46,6 +47,7 @@ from domdf_python_tools.stringlist import DelimitedList
 from domdf_python_tools.typing import PathLike
 from repo_helper.cli import cli_command
 from repo_helper.core import RepoHelper
+# from virtualenv.create.pyenv_cfg import PyEnvCfg
 from virtualenv.run import session_via_cli  # type: ignore
 from virtualenv.run.session import Session  # type: ignore
 from virtualenv.seed.wheels import pip_wheel_env_run  # type: ignore
@@ -132,6 +134,8 @@ def devenv(dest: str = "venv", verbose: int = 0, colour: Optional[bool] = None):
 	if verbose:
 		click.echo('')
 
+	update_pyvenv(venvdir)
+
 	click.echo(
 			Fore.GREEN("Successfully created development virtualenv."),
 			color=resolve_color_default(colour),
@@ -166,7 +170,31 @@ def install_requirements(
 	elif verbosity > 1:
 		cmd.append("--verbose")
 
-	session.seeder._execute(
-			[str(x) for x in cmd],
-			pip_wheel_env_run(session.seeder.extra_search_dir, session.seeder.app_data),
-			)
+	try:
+		session.seeder._execute(
+				[str(x) for x in cmd],
+				pip_wheel_env_run(session.seeder.extra_search_dir, session.seeder.app_data),
+				)
+	except RuntimeError:  # pragma: no cover
+		raise ClickException(f"Could not install from {requirements_file}")
+
+
+# def update_pyvenv(venv_dir: PathLike):
+# 	# Fails for trailing whitespace - bug in virtualenv
+# 	venv_dir = PathPlus(venv_dir)
+#
+# 	pyvenv_config = PyEnvCfg.from_folder(venv_dir)
+# 	pyvenv_config["repo_helper_devenv"] = __version__
+# 	pyvenv_config.write()
+
+
+def update_pyvenv(venv_dir: PathLike):
+	venv_dir = PathPlus(venv_dir)
+
+	pyvenv_config = dict(line.split(" = ") for line in (venv_dir / "pyvenv.cfg").read_lines() if line)
+	pyvenv_config["repo_helper_devenv"] = __version__
+
+	with (venv_dir / "pyvenv.cfg").open('w') as fp:
+		for key, value in pyvenv_config.items():
+			value = f" = " + str(value).replace('\n', '\n\t')
+			fp.write(f"{key}{value}\n")
