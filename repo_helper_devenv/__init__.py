@@ -43,9 +43,11 @@ from consolekit.options import colour_option, verbose_option
 from consolekit.terminal_colours import Fore, resolve_color_default
 from domdf_python_tools.paths import PathPlus
 from domdf_python_tools.stringlist import DelimitedList
+from domdf_python_tools.typing import PathLike
 from repo_helper.cli import cli_command
 from repo_helper.core import RepoHelper
 from virtualenv.run import session_via_cli  # type: ignore
+from virtualenv.run.session import Session  # type: ignore
 from virtualenv.seed.wheels import pip_wheel_env_run  # type: ignore
 
 __author__: str = "Dominic Davis-Foster"
@@ -112,30 +114,20 @@ def devenv(dest: str = "venv", verbose: int = 0, colour: Optional[bool] = None):
 	with of_session:
 		of_session.run()
 
-	# Install requirements
-	cmd = [
-			of_session.creator.exe,
-			"-m",
-			"pip",
-			"install",
-			"--disable-pip-version-check",
-			]
+		if verbose:
+			click.echo("Installing library requirements.")
 
-	if not verbose:
-		cmd.append("--quiet")
-	elif verbose >= 2:
-		cmd.append("--verbose")
+		install_requirements(of_session, rh.target_repo / "requirements.txt", verbosity=verbose)
 
-	of_session.seeder._execute(
-			[str(x) for x in [*cmd, "-r", rh.target_repo / "requirements.txt"]],
-			pip_wheel_env_run(of_session.seeder.extra_search_dir, of_session.seeder.app_data),
-			)
+		if verbose:
+			click.echo("Installing test requirements.")
 
-	if rh.templates.globals["enable_tests"]:
-		of_session.seeder._execute(
-				[str(x) for x in [*cmd, "-r", rh.target_repo / rh.templates.globals["tests_dir"] / "requirements.txt"]],
-				pip_wheel_env_run(of_session.seeder.extra_search_dir, of_session.seeder.app_data),
-				)
+		if rh.templates.globals["enable_tests"]:
+			install_requirements(
+					of_session,
+					rh.target_repo / rh.templates.globals["tests_dir"] / "requirements.txt",
+					verbosity=verbose
+					)
 
 	if verbose:
 		click.echo('')
@@ -143,4 +135,38 @@ def devenv(dest: str = "venv", verbose: int = 0, colour: Optional[bool] = None):
 	click.echo(
 			Fore.GREEN("Successfully created development virtualenv."),
 			color=resolve_color_default(colour),
+			)
+
+
+def install_requirements(
+		session: Session,
+		requirements_file: PathLike,
+		verbosity: int = 1,
+		):
+	"""
+	Install requirements into a virtualenv.
+
+	:param session:
+	:param requirements_file:
+	:param verbosity:
+	"""
+
+	cmd = [
+			session.creator.exe,
+			"-m",
+			"pip",
+			"install",
+			"--disable-pip-version-check",
+			"-r",
+			requirements_file,
+			]
+
+	if verbosity < 1:
+		cmd.append("--quiet")
+	elif verbosity > 1:
+		cmd.append("--verbose")
+
+	session.seeder._execute(
+			[str(x) for x in cmd],
+			pip_wheel_env_run(session.seeder.extra_search_dir, session.seeder.app_data),
 			)
