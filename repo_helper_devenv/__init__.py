@@ -119,8 +119,6 @@ def devenv(dest: str = "venv", verbose: int = 0, colour: Optional[bool] = None):
 			"pip",
 			"install",
 			"--disable-pip-version-check",
-			"-r",
-			rh.target_repo / "requirements.txt",
 			]
 
 	if not verbose:
@@ -128,16 +126,16 @@ def devenv(dest: str = "venv", verbose: int = 0, colour: Optional[bool] = None):
 	elif verbose >= 2:
 		cmd.append("--verbose")
 
-	if rh.templates.globals["enable_tests"]:
-		cmd.extend([
-				"-r",
-				rh.target_repo / rh.templates.globals["tests_dir"] / "requirements.txt",
-				])
-
 	of_session.seeder._execute(
-			[str(x) for x in cmd],
+			[str(x) for x in [*cmd, "-r", rh.target_repo / "requirements.txt"]],
 			pip_wheel_env_run(of_session.seeder.extra_search_dir, of_session.seeder.app_data),
 			)
+
+	if rh.templates.globals["enable_tests"]:
+		of_session.seeder._execute(
+				[str(x) for x in [*cmd, "-r", rh.target_repo / rh.templates.globals["tests_dir"] / "requirements.txt"]],
+				pip_wheel_env_run(of_session.seeder.extra_search_dir, of_session.seeder.app_data),
+				)
 
 	if verbose:
 		click.echo('')
