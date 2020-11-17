@@ -10,7 +10,6 @@ license: 'MIT'
 short_desc: "Create virtual environments with repo-helper."
 
 enable_conda: False
-enable_tests: False
 
 entry_points:
  repo_helper.command:

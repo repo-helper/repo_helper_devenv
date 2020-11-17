@@ -17,7 +17,7 @@ repo_helper_devenv
 	* - Docs
 	  - |docs| |docs_check|
 	* - Tests
-	  - |travis| |actions_windows| |actions_macos| |codefactor| |pre_commit_ci|
+	  - |travis| |actions_windows| |actions_macos| |coveralls| |codefactor| |pre_commit_ci|
 	* - PyPI
 	  - |pypi-version| |supported-versions| |supported-implementations| |wheel|
 	* - Activity
@@ -47,6 +47,9 @@ repo_helper_devenv
 
 .. |requires| requires-io-shield::
 	:alt: Requirements Status
+
+.. |coveralls| coveralls-shield::
+	:alt: Coverage
 
 .. |codefactor| codefactor-shield::
 	:alt: CodeFactor Grade
