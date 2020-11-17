@@ -110,7 +110,7 @@ def devenv(dest: str = "venv", verbose: int = 0, colour: Optional[bool] = None):
 
 	of_session = session_via_cli(args)
 
-	if not of_session.seeder.enabled:
+	if not of_session.seeder.enabled:  # pragma: no cover
 		sys.exit(1)
 
 	with of_session:
