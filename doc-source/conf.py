@@ -67,20 +67,12 @@ intersphinx_mapping = {
 		"sphinx": ("https://www.sphinx-doc.org/en/stable/", None),
 		}
 
-html_theme = "domdf_sphinx_theme"
-html_theme_options = {
-		"logo_only": False,
-		}
+html_theme = "furo"
+html_theme_options = {}
 html_theme_path = ["../.."]
 html_show_sourcelink = True  # True will show link to source
 
-html_context = {
-		"display_github": True,
-		"github_user": "domdfcoding",
-		"github_repo": "repo_helper_devenv",
-		"github_version": "master",
-		"conf_py_path": "/doc-source/",
-		}
+html_context = {}
 
 htmlhelp_basename = slug
 

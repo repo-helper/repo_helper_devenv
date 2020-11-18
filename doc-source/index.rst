@@ -114,12 +114,7 @@ repo_helper_devenv
 
 	installation
 	usage
-
-.. toctree::
-	:maxdepth: 3
-	:caption: Contributing
-
-	contributing
+	contrib
 	Source
 
 .. start links
