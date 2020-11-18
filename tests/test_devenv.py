@@ -1,4 +1,5 @@
 # stdlib
+import re
 
 # 3rd party
 import pytest
@@ -113,18 +114,24 @@ def test_devenv_verbose(temp_repo: Repo, extra_args, tests):
 		assert "Installing test requirements." in result.stdout
 
 
-@pytest.mark.parametrize(
-		"extra_args",
-		[
-				pytest.param(("--version", ), id="version"),
-				pytest.param(("--version", "--version"), id="version_version"),
-				]
-		)
-def test_version(tmp_pathplus, extra_args, file_regression: FileRegressionFixture):
+def test_version(tmp_pathplus, file_regression: FileRegressionFixture):
 
 	with in_directory(tmp_pathplus):
 		runner = CliRunner()
-		result: Result = runner.invoke(devenv, catch_exceptions=False, args=extra_args)
+		result: Result = runner.invoke(devenv, catch_exceptions=False, args=["--version"])
 		assert result.exit_code == 0
 
-	file_regression.check(result.stdout)
+	assert result.stdout == f"repo_helper_devenv version {__version__}\n"
+
+
+def test_version_version(tmp_pathplus, file_regression: FileRegressionFixture):
+
+	with in_directory(tmp_pathplus):
+		runner = CliRunner()
+		result: Result = runner.invoke(devenv, catch_exceptions=False, args=["--version", "--version"])
+		assert result.exit_code == 0
+
+	assert re.match(
+			rf"repo_helper_devenv version {re.escape(__version__)}, virualenv \d+\.\d+\.\d+, repo_helper \d+\.\d+\.\d+\n",
+			result.stdout,
+			)
