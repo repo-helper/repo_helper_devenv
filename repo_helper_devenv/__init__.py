@@ -33,13 +33,13 @@ Create virtual environments with repo-helper.
 
 # stdlib
 import sys
-from typing import Optional
+from typing import Dict, Optional
 
 # 3rd party
 import click
 import repo_helper
 import virtualenv  # type: ignore
-from click import ClickException
+from click import ClickException, Context, Option
 from consolekit.options import colour_option, verbose_option
 from consolekit.terminal_colours import Fore, resolve_color_default
 from domdf_python_tools.paths import PathPlus
@@ -58,10 +58,10 @@ __license__: str = "MIT License"
 __version__: str = "0.1.0"
 __email__: str = "dominic@davis-foster.co.uk"
 
-__all__ = ["devenv"]
+__all__ = ["devenv", "read_pyvenv", "install_requirements"]
 
 
-def version_callback(ctx, param, value):
+def version_callback(ctx: Context, param: Option, value: int):
 	if not value or ctx.resilient_parsing:
 		return
 
@@ -89,7 +89,7 @@ def version_callback(ctx, param, value):
 		expose_value=False,
 		is_eager=True,
 		help="Show the version and exit.",
-		callback=version_callback,
+		callback=version_callback,  # type: ignore
 		)
 @colour_option()
 @cli_command()
@@ -188,13 +188,34 @@ def install_requirements(
 # 	pyvenv_config.write()
 
 
-def update_pyvenv(venv_dir: PathLike):
+def update_pyvenv(venv_dir: PathLike) -> None:
 	venv_dir = PathPlus(venv_dir)
 
-	pyvenv_config = dict(line.split(" = ") for line in (venv_dir / "pyvenv.cfg").read_lines() if line)
+	pyvenv_config: Dict[str, str] = read_pyvenv(venv_dir)
 	pyvenv_config["repo_helper_devenv"] = __version__
 
 	with (venv_dir / "pyvenv.cfg").open('w') as fp:
 		for key, value in pyvenv_config.items():
 			value = f" = " + str(value).replace('\n', '\n\t')
 			fp.write(f"{key}{value}\n")
+
+
+def read_pyvenv(venv_dir: PathLike) -> Dict[str, str]:
+	"""
+	Reads the ``pyvenv.cfg`` for the given virtualenv, and returns a ``key: value`` mapping of its contents.
+
+	:param venv_dir:
+
+	.. versionadded:: 0.2.0
+	"""
+
+	venv_dir = PathPlus(venv_dir)
+
+	pyvenv_config: Dict[str, str] = {}
+
+	for line in (venv_dir / "pyvenv.cfg").read_lines():
+		if line:
+			key, value, *_ = line.split(" = ")
+			pyvenv_config[key] = value
+
+	return pyvenv_config

@@ -2,6 +2,8 @@
 import re
 
 # 3rd party
+from typing import Dict
+
 import pytest
 from click.testing import CliRunner, Result
 from domdf_python_tools.paths import PathPlus, in_directory
@@ -10,7 +12,7 @@ from dulwich.repo import Repo
 from pytest_regressions.file_regression import FileRegressionFixture
 
 # this package
-from repo_helper_devenv import __version__, devenv
+from repo_helper_devenv import __version__, devenv, read_pyvenv
 
 
 def test_devenv(temp_repo: Repo):
@@ -52,7 +54,7 @@ def test_devenv(temp_repo: Repo):
 		for package in test_requirements:
 			assert (version_dir / "site-packages" / package).is_dir()
 
-	pyvenv_config = dict(line.split(" = ") for line in (venv_dir / "pyvenv.cfg").read_lines() if line)
+	pyvenv_config: Dict[str, str] = read_pyvenv(venv_dir)
 
 	assert "prompt" in pyvenv_config
 	assert pyvenv_config["prompt"] == "(repo_helper_demo) "
