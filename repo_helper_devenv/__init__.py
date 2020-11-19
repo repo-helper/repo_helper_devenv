@@ -3,6 +3,8 @@
 #  __init__.py
 """
 Create virtual environments with repo-helper.
+
+.. TODO:: Install extras
 """
 #
 #  Copyright © 2020 Dominic Davis-Foster <dominic@davis-foster.co.uk>

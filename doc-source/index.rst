@@ -110,11 +110,11 @@ repo_helper_devenv
 .. toctree::
 	:maxdepth: 3
 	:caption: Documentation
-	:glob:
 
 	installation
 	usage
-	contrib
+	api
+	contributing
 	Source
 
 .. start links
