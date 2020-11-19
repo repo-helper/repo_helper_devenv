@@ -110,7 +110,9 @@ def mkdevenv(repo_dir: PathLike, venv_dir: PathLike = "venv", verbosity: int = 1
 
 	:param repo_dir: The root of the repository to create the devenv for.
 	:param venv_dir: The directory to create the devenv in, relative to ``repo_dir``.
-	:param verbosity:
+	:param verbosity: The verbosity of the function. ``0`` = quiet, ``2`` = very verbose.
+
+	:rtype:
 
 	.. versionadded:: 0.3.0
 	"""
@@ -166,7 +168,7 @@ def install_requirements(
 
 	:param session:
 	:param requirements_file:
-	:param verbosity:
+	:param verbosity: The verbosity of the function. ``0`` = quiet, ``2`` = very verbose.
 	"""
 
 	cmd = [
@@ -219,6 +221,8 @@ def read_pyvenv(venv_dir: PathLike) -> Dict[str, str]:
 	Reads the ``pyvenv.cfg`` for the given virtualenv, and returns a ``key: value`` mapping of its contents.
 
 	:param venv_dir:
+
+	:rtype:
 
 	.. versionadded:: 0.2.0
 	"""
