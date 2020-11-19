@@ -44,7 +44,9 @@ def test_devenv(temp_repo: Repo):
 	# Check list of packages in virtualenv
 	venv_dir = repo_path / "venv"
 
-	for version_dir in (venv_dir / "lib").glob('*'):
+	version_dirs = 0
+
+	for version_dir in (venv_dir / "lib").glob("py*"):
 		print(version_dir)
 
 		for package in lib_requirements:
@@ -52,6 +54,10 @@ def test_devenv(temp_repo: Repo):
 
 		for package in test_requirements:
 			assert (version_dir / "site-packages" / package).is_dir()
+
+		version_dirs += 1
+
+	assert version_dirs == 1
 
 	pyvenv_config: Dict[str, str] = read_pyvenv(venv_dir)
 
