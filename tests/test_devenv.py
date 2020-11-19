@@ -1,5 +1,6 @@
 # stdlib
 import re
+import sys
 from typing import Dict
 
 # 3rd party
@@ -46,16 +47,26 @@ def test_devenv(temp_repo: Repo):
 
 	version_dirs = 0
 
-	for version_dir in (venv_dir / "lib").glob("py*"):
-		print(version_dir)
+	if sys.platform == "win32":
 
 		for package in lib_requirements:
-			assert (version_dir / "site-packages" / package).is_dir()
+			assert (venv_dir / "Lib" / "site-packages" / package).is_dir()
 
 		for package in test_requirements:
-			assert (version_dir / "site-packages" / package).is_dir()
+			assert (venv_dir / "Lib" / "site-packages" / package).is_dir()
 
 		version_dirs += 1
+
+	else:
+		for version_dir in (venv_dir / "lib").glob("py*"):
+
+			for package in lib_requirements:
+				assert (version_dir / "site-packages" / package).is_dir()
+
+			for package in test_requirements:
+				assert (version_dir / "site-packages" / package).is_dir()
+
+			version_dirs += 1
 
 	assert version_dirs == 1
 
