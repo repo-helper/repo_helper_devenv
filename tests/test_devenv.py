@@ -45,30 +45,20 @@ def test_devenv(temp_repo: Repo):
 	# Check list of packages in virtualenv
 	venv_dir = repo_path / "venv"
 
-	version_dirs = 0
-
 	if sys.platform == "win32":
+		version_dirs = [(venv_dir / "Lib")]
+	else:
+		version_dirs = list((venv_dir / "lib").glob("py*"))
+
+	for version_dir in (venv_dir / "lib").glob("py*"):
 
 		for package in lib_requirements:
-			assert (venv_dir / "Lib" / "site-packages" / package).is_dir()
+			assert (version_dir / "site-packages" / package).is_dir()
 
 		for package in test_requirements:
-			assert (venv_dir / "Lib" / "site-packages" / package).is_dir()
+			assert (version_dir / "site-packages" / package).is_dir()
 
-		version_dirs += 1
-
-	else:
-		for version_dir in (venv_dir / "lib").glob("py*"):
-
-			for package in lib_requirements:
-				assert (version_dir / "site-packages" / package).is_dir()
-
-			for package in test_requirements:
-				assert (version_dir / "site-packages" / package).is_dir()
-
-			version_dirs += 1
-
-	assert version_dirs == 1
+	assert len(version_dirs) == 1
 
 	pyvenv_config: Dict[str, str] = read_pyvenv(venv_dir)
 
