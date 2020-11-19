@@ -42,7 +42,7 @@ import click
 import repo_helper
 import virtualenv  # type: ignore
 from click import ClickException, Context, Option
-from consolekit.options import colour_option, verbose_option
+from consolekit.options import colour_option, verbose_option, version_option
 from consolekit.terminal_colours import Fore, resolve_color_default
 from domdf_python_tools.paths import PathPlus
 from domdf_python_tools.stringlist import DelimitedList
@@ -60,7 +60,7 @@ __license__: str = "MIT License"
 __version__: str = "0.2.0"
 __email__: str = "dominic@davis-foster.co.uk"
 
-__all__ = ["devenv", "read_pyvenv", "install_requirements"]
+__all__ = ["mkdevenv", "devenv", "read_pyvenv", "install_requirements"]
 
 
 def version_callback(ctx: Context, param: Option, value: int):
@@ -80,68 +80,80 @@ def version_callback(ctx: Context, param: Option, value: int):
 
 
 @verbose_option()
+@colour_option()
+@version_option(callback=version_callback)
 @click.argument(
 		"dest",
 		type=click.STRING,
 		default="venv",
 		)
-@click.option(
-		"--version",
-		count=True,
-		expose_value=False,
-		is_eager=True,
-		help="Show the version and exit.",
-		callback=version_callback,  # type: ignore
-		)
-@colour_option()
 @cli_command()
 def devenv(dest: str = "venv", verbose: int = 0, colour: Optional[bool] = None):
 	"""
 	Create a virtualenv.
 	"""
 
-	rh = RepoHelper(PathPlus.cwd())
+	ret = mkdevenv(PathPlus.cwd(), dest, verbose)
+
+	if ret:
+		sys.exit(ret)
+	else:
+		click.echo(
+				Fore.GREEN("Successfully created development virtualenv."),
+				color=resolve_color_default(colour),
+				)
+
+
+def mkdevenv(repo_dir: PathLike, venv_dir: PathLike = "venv", verbosity: int = 1) -> int:
+	"""
+	Create a "devenv".
+
+	:param repo_dir: The root of the repository to create the devenv for.
+	:param venv_dir: The directory to create the devenv in, relative to ``repo_dir``.
+	:param verbosity:
+
+	.. versionadded:: 0.3.0
+	"""
+
+	rh = RepoHelper(repo_dir)
 	modname = rh.templates.globals["modname"]
 
-	venvdir = rh.target_repo / dest
+	venvdir = rh.target_repo / venv_dir
 	args = [str(venvdir), "--prompt", f"({modname}) ", "--seeder", "pip", "--download"]
-	if verbose:
+	if verbosity:
 		args.append("--verbose")
-	if verbose >= 2:
+	if verbosity >= 2:
 		args.append("--verbose")
 
 	of_session = session_via_cli(args)
 
 	if not of_session.seeder.enabled:  # pragma: no cover
-		sys.exit(1)
+		return 1
 
 	with of_session:
 		of_session.run()
 
-		if verbose:
+		if verbosity:
 			click.echo("Installing library requirements.")
 
-		install_requirements(of_session, rh.target_repo / "requirements.txt", verbosity=verbose)
+		install_requirements(of_session, rh.target_repo / "requirements.txt", verbosity=verbosity)
 
-		if verbose:
+		if verbosity:
 			click.echo("Installing test requirements.")
 
 		if rh.templates.globals["enable_tests"]:
 			install_requirements(
 					of_session,
 					rh.target_repo / rh.templates.globals["tests_dir"] / "requirements.txt",
-					verbosity=verbose
+					verbosity=verbosity
 					)
 
-	if verbose:
+	if verbosity:
 		click.echo('')
 
 	update_pyvenv(venvdir)
 
-	click.echo(
-			Fore.GREEN("Successfully created development virtualenv."),
-			color=resolve_color_default(colour),
-			)
+	return 0
 
 
 def install_requirements(
