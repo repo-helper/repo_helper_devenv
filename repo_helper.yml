@@ -34,3 +34,5 @@ travis_pypi_secure: "Ve347lvfcmdZUwa8/F+nYCs6Lturm2cwFz7+wCsFY4befcyDz0NEfq8CbTi
 sphinx_html_theme: furo
 
 standalone_contrib_guide: true
+
+use_travis: false
