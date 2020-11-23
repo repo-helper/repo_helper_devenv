@@ -37,6 +37,7 @@ jobs:
       - name: "Run Tests for Python ${{ matrix.python-version }}"
         run: "python -m tox"
 
+
       - name: "Upload Coverage"
         uses: actions/upload-artifact@v2
         with:
@@ -75,7 +76,7 @@ jobs:
           shopt -s globstar
           python -m coverage combine coverage/**/.coverage
 
-      - name: "Upload Combined Coverage Aretfact"
+      - name: "Upload Combined Coverage Artefact"
         uses: actions/upload-artifact@v2
         with:
           name: "combined-coverage"
