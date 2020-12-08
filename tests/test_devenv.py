@@ -50,7 +50,7 @@ def test_devenv(temp_repo: Repo):
 	else:
 		version_dirs = list((venv_dir / "lib").glob("py*"))
 
-	for version_dir in (venv_dir / "lib").glob("py*"):
+	for version_dir in version_dirs:
 
 		for package in lib_requirements:
 			assert (version_dir / "site-packages" / package).is_dir()
