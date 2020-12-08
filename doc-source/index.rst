@@ -121,6 +121,6 @@ repo_helper_devenv
 
 View the :ref:`Function Index <genindex>` or browse the `Source Code <_modules/index.html>`__.
 
-`Browse the GitHub Repository <https://github.com/domdfcoding/repo_helper_devenv>`__
+`Browse the GitHub Repository <https://github.com/repo-helper/repo_helper_devenv>`__
 
 .. end links

@@ -27,35 +27,35 @@ repo_helper_devenv
 	  - |license| |language| |requires| |pre_commit|
 
 .. |docs| image:: https://img.shields.io/readthedocs/repo_helper_devenv/latest?logo=read-the-docs
-	:target: https://repo_helper_devenv.readthedocs.io/en/latest/?badge=latest
+	:target: https://repo_helper_devenv.readthedocs.io/en/latest
 	:alt: Documentation Build Status
 
-.. |docs_check| image:: https://github.com/domdfcoding/repo_helper_devenv/workflows/Docs%20Check/badge.svg
-	:target: https://github.com/domdfcoding/repo_helper_devenv/actions?query=workflow%3A%22Docs+Check%22
+.. |docs_check| image:: https://github.com/repo-helper/repo_helper_devenv/workflows/Docs%20Check/badge.svg
+	:target: https://github.com/repo-helper/repo_helper_devenv/actions?query=workflow%3A%22Docs+Check%22
 	:alt: Docs Check Status
 
-.. |travis| image:: https://github.com/domdfcoding/repo_helper_devenv/workflows/Linux%20Tests/badge.svg
-	:target: https://github.com/domdfcoding/repo_helper_devenv/actions?query=workflow%3A%22Linux+Tests%22
+.. |travis| image:: https://github.com/repo-helper/repo_helper_devenv/workflows/Linux%20Tests/badge.svg
+	:target: https://github.com/repo-helper/repo_helper_devenv/actions?query=workflow%3A%22Linux+Tests%22
 	:alt: Linux Test Status
 
-.. |actions_windows| image:: https://github.com/domdfcoding/repo_helper_devenv/workflows/Windows%20Tests/badge.svg
-	:target: https://github.com/domdfcoding/repo_helper_devenv/actions?query=workflow%3A%22Windows+Tests%22
+.. |actions_windows| image:: https://github.com/repo-helper/repo_helper_devenv/workflows/Windows%20Tests/badge.svg
+	:target: https://github.com/repo-helper/repo_helper_devenv/actions?query=workflow%3A%22Windows+Tests%22
 	:alt: Windows Test Status
 
-.. |actions_macos| image:: https://github.com/domdfcoding/repo_helper_devenv/workflows/macOS%20Tests/badge.svg
-	:target: https://github.com/domdfcoding/repo_helper_devenv/actions?query=workflow%3A%22macOS+Tests%22
+.. |actions_macos| image:: https://github.com/repo-helper/repo_helper_devenv/workflows/macOS%20Tests/badge.svg
+	:target: https://github.com/repo-helper/repo_helper_devenv/actions?query=workflow%3A%22macOS+Tests%22
 	:alt: macOS Test Status
 
-.. |requires| image:: https://requires.io/github/domdfcoding/repo_helper_devenv/requirements.svg?branch=master
-	:target: https://requires.io/github/domdfcoding/repo_helper_devenv/requirements/?branch=master
+.. |requires| image:: https://requires.io/github/repo-helper/repo_helper_devenv/requirements.svg?branch=master
+	:target: https://requires.io/github/repo-helper/repo_helper_devenv/requirements/?branch=master
 	:alt: Requirements Status
 
-.. |coveralls| image:: https://img.shields.io/coveralls/github/domdfcoding/repo_helper_devenv/master?logo=coveralls
-	:target: https://coveralls.io/github/domdfcoding/repo_helper_devenv?branch=master
+.. |coveralls| image:: https://img.shields.io/coveralls/github/repo-helper/repo_helper_devenv/master?logo=coveralls
+	:target: https://coveralls.io/github/repo-helper/repo_helper_devenv?branch=master
 	:alt: Coverage
 
-.. |codefactor| image:: https://img.shields.io/codefactor/grade/github/domdfcoding/repo_helper_devenv?logo=codefactor
-	:target: https://www.codefactor.io/repository/github/domdfcoding/repo_helper_devenv
+.. |codefactor| image:: https://img.shields.io/codefactor/grade/github/repo-helper/repo_helper_devenv?logo=codefactor
+	:target: https://www.codefactor.io/repository/github/repo-helper/repo_helper_devenv
 	:alt: CodeFactor Grade
 
 .. |pypi-version| image:: https://img.shields.io/pypi/v/repo_helper_devenv
@@ -74,19 +74,19 @@ repo_helper_devenv
 	:target: https://pypi.org/project/repo_helper_devenv/
 	:alt: PyPI - Wheel
 
-.. |license| image:: https://img.shields.io/github/license/domdfcoding/repo_helper_devenv
-	:target: https://github.com/domdfcoding/repo_helper_devenv/blob/master/LICENSE
+.. |license| image:: https://img.shields.io/github/license/repo-helper/repo_helper_devenv
+	:target: https://github.com/repo-helper/repo_helper_devenv/blob/master/LICENSE
 	:alt: License
 
-.. |language| image:: https://img.shields.io/github/languages/top/domdfcoding/repo_helper_devenv
+.. |language| image:: https://img.shields.io/github/languages/top/repo-helper/repo_helper_devenv
 	:alt: GitHub top language
 
-.. |commits-since| image:: https://img.shields.io/github/commits-since/domdfcoding/repo_helper_devenv/v0.3.0
-	:target: https://github.com/domdfcoding/repo_helper_devenv/pulse
+.. |commits-since| image:: https://img.shields.io/github/commits-since/repo-helper/repo_helper_devenv/v0.3.0
+	:target: https://github.com/repo-helper/repo_helper_devenv/pulse
 	:alt: GitHub commits since tagged version
 
-.. |commits-latest| image:: https://img.shields.io/github/last-commit/domdfcoding/repo_helper_devenv
-	:target: https://github.com/domdfcoding/repo_helper_devenv/commit/master
+.. |commits-latest| image:: https://img.shields.io/github/last-commit/repo-helper/repo_helper_devenv
+	:target: https://github.com/repo-helper/repo_helper_devenv/commit/master
 	:alt: GitHub last commit
 
 .. |maintained| image:: https://img.shields.io/maintenance/yes/2020
@@ -96,8 +96,8 @@ repo_helper_devenv
 	:target: https://github.com/pre-commit/pre-commit
 	:alt: pre-commit
 
-.. |pre_commit_ci| image:: https://results.pre-commit.ci/badge/github/domdfcoding/repo_helper_devenv/master.svg
-	:target: https://results.pre-commit.ci/latest/github/domdfcoding/repo_helper_devenv/master
+.. |pre_commit_ci| image:: https://results.pre-commit.ci/badge/github/repo-helper/repo_helper_devenv/master.svg
+	:target: https://results.pre-commit.ci/latest/github/repo-helper/repo_helper_devenv/master
 	:alt: pre-commit.ci status
 
 .. end shields

@@ -3,13 +3,13 @@ Downloading source code
 =========================
 
 The ``repo_helper_devenv`` source code is available on GitHub,
-and can be accessed from the following URL: https://github.com/domdfcoding/repo_helper_devenv
+and can be accessed from the following URL: https://github.com/repo-helper/repo_helper_devenv
 
 If you have ``git`` installed, you can clone the repository with the following command:
 
 .. code-block:: bash
 
-    $ git clone https://github.com/domdfcoding/repo_helper_devenv"
+    $ git clone https://github.com/repo-helper/repo_helper_devenv"
     > Cloning into 'repo_helper_devenv'...
     > remote: Enumerating objects: 47, done.
     > remote: Counting objects: 100% (47/47), done.
