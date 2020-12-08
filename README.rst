@@ -81,7 +81,7 @@ repo_helper_devenv
 .. |language| image:: https://img.shields.io/github/languages/top/repo-helper/repo_helper_devenv
 	:alt: GitHub top language
 
-.. |commits-since| image:: https://img.shields.io/github/commits-since/repo-helper/repo_helper_devenv/v0.3.0
+.. |commits-since| image:: https://img.shields.io/github/commits-since/repo-helper/repo_helper_devenv/v0.3.1
 	:target: https://github.com/repo-helper/repo_helper_devenv/pulse
 	:alt: GitHub commits since tagged version
 

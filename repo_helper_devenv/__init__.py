@@ -57,7 +57,7 @@ from virtualenv.seed.wheels import pip_wheel_env_run  # type: ignore
 __author__: str = "Dominic Davis-Foster"
 __copyright__: str = "2020 Dominic Davis-Foster"
 __license__: str = "MIT License"
-__version__: str = "0.3.0"
+__version__: str = "0.3.1"
 __email__: str = "dominic@davis-foster.co.uk"
 
 __all__ = ["mkdevenv", "devenv", "read_pyvenv", "install_requirements"]
@@ -114,7 +114,7 @@ def mkdevenv(repo_dir: PathLike, venv_dir: PathLike = "venv", verbosity: int = 1
 
 	:rtype:
 
-	.. versionadded:: 0.3.0
+	.. versionadded:: 0.3.1
 	"""
 
 	rh = RepoHelper(repo_dir)
@@ -224,7 +224,7 @@ def read_pyvenv(venv_dir: PathLike) -> Dict[str, str]:
 
 	:rtype:
 
-	.. versionadded:: 0.3.0
+	.. versionadded:: 0.3.1
 	"""
 
 	venv_dir = PathPlus(venv_dir)
