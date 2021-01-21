@@ -1,1 +1,1 @@
-pytest_plugins = ("domdf_python_tools.testing", "repo_helper.testing")
+pytest_plugins = ("coincidence", "repo_helper.testing")
