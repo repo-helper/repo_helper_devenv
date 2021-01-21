@@ -34,6 +34,7 @@ Create virtual environments with repo-helper.
 #
 
 # stdlib
+import os
 import sys
 from typing import Dict, Optional
 
@@ -49,7 +50,6 @@ from domdf_python_tools.stringlist import DelimitedList
 from domdf_python_tools.typing import PathLike
 from repo_helper.cli import cli_command
 from repo_helper.core import RepoHelper
-# from virtualenv.create.pyenv_cfg import PyEnvCfg
 from virtualenv.run import session_via_cli  # type: ignore
 from virtualenv.run.session import Session  # type: ignore
 from virtualenv.seed.wheels import pip_wheel_env_run  # type: ignore
@@ -61,6 +61,14 @@ __version__: str = "0.3.1"
 __email__: str = "dominic@davis-foster.co.uk"
 
 __all__ = ["mkdevenv", "devenv", "read_pyvenv", "install_requirements"]
+
+virtualenv_version = tuple(map(int, virtualenv.__version__.split('.')))
+
+if virtualenv_version >= (20, 4):
+	_pip_wheel_env_run = pip_wheel_env_run
+
+	def pip_wheel_env_run(search_dirs, app_data):
+		return _pip_wheel_env_run(search_dirs, app_data, os.environ)
 
 
 def version_callback(ctx: Context, param: Option, value: int):
@@ -195,15 +203,6 @@ def install_requirements(
 		raise ClickException(f"Could not install from {requirements_file}")
 
 
-# def update_pyvenv(venv_dir: PathLike):
-# 	# Fails for trailing whitespace - bug in virtualenv
-# 	venv_dir = PathPlus(venv_dir)
-#
-# 	pyvenv_config = PyEnvCfg.from_folder(venv_dir)
-# 	pyvenv_config["repo_helper_devenv"] = __version__
-# 	pyvenv_config.write()
-
-
 def update_pyvenv(venv_dir: PathLike) -> None:
 	venv_dir = PathPlus(venv_dir)
 
@@ -220,11 +219,9 @@ def read_pyvenv(venv_dir: PathLike) -> Dict[str, str]:
 	"""
 	Reads the ``pyvenv.cfg`` for the given virtualenv, and returns a ``key: value`` mapping of its contents.
 
-	:param venv_dir:
-
-	:rtype:
-
 	.. versionadded:: 0.3.1
+
+	:param venv_dir:
 	"""
 
 	venv_dir = PathPlus(venv_dir)
