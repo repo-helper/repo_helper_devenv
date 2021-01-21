@@ -30,7 +30,11 @@ python_versions:
 extra_sphinx_extensions:
  - sphinx_click
 
-
 sphinx_html_theme: furo
-
 standalone_contrib_guide: true
+
+third_party_version_matrix:
+ virtualenv:
+  - 20.1
+  - 20.2
+  - 20.3
