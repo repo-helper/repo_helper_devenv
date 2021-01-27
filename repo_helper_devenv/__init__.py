@@ -126,6 +126,7 @@ def mkdevenv(repo_dir: PathLike, venv_dir: PathLike = "venv", verbosity: int = 1
 	"""
 
 	rh = RepoHelper(repo_dir)
+	rh.load_settings()
 	modname = rh.templates.globals["modname"]
 
 	venvdir = rh.target_repo / venv_dir
