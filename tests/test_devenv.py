@@ -5,7 +5,7 @@ from typing import Dict
 
 # 3rd party
 import pytest
-from click.testing import CliRunner, Result
+from consolekit import CliRunner, Result
 from domdf_python_tools.paths import PathPlus, in_directory
 from domdf_python_tools.utils import strtobool
 from dulwich.repo import Repo
@@ -38,7 +38,7 @@ def test_devenv(temp_repo: Repo):
 
 	with in_directory(temp_repo.path):
 		runner = CliRunner()
-		result: Result = runner.invoke(devenv, catch_exceptions=False)
+		result: Result = runner.invoke(devenv)
 		assert result.exit_code == 0
 		assert result.stdout == 'Successfully created development virtualenv.\n'
 
@@ -112,7 +112,7 @@ def test_devenv_verbose(temp_repo: Repo, extra_args, tests):
 
 	with in_directory(temp_repo.path):
 		runner = CliRunner()
-		result: Result = runner.invoke(devenv, catch_exceptions=False, args=extra_args)
+		result: Result = runner.invoke(devenv, args=extra_args)
 		assert result.exit_code == 0
 
 	assert "Installing library requirements." in result.stdout
@@ -126,7 +126,7 @@ def test_version(tmp_pathplus, file_regression: FileRegressionFixture):
 
 	with in_directory(tmp_pathplus):
 		runner = CliRunner()
-		result: Result = runner.invoke(devenv, catch_exceptions=False, args=["--version"])
+		result: Result = runner.invoke(devenv, args=["--version"])
 		assert result.exit_code == 0
 
 	assert result.stdout == f"repo_helper_devenv version {__version__}\n"
@@ -136,7 +136,7 @@ def test_version_version(tmp_pathplus, file_regression: FileRegressionFixture):
 
 	with in_directory(tmp_pathplus):
 		runner = CliRunner()
-		result: Result = runner.invoke(devenv, catch_exceptions=False, args=["--version", "--version"])
+		result: Result = runner.invoke(devenv, args=["--version", "--version"])
 		assert result.exit_code == 0
 
 	assert re.match(
