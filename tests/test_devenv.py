@@ -5,7 +5,7 @@ from typing import Dict
 
 # 3rd party
 import pytest
-from consolekit import CliRunner, Result
+from consolekit.testing import CliRunner, Result
 from domdf_python_tools.paths import PathPlus, in_directory
 from domdf_python_tools.utils import strtobool
 from dulwich.repo import Repo
