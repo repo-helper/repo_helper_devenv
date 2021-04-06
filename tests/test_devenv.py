@@ -75,6 +75,10 @@ def test_devenv(temp_repo: Repo):
 	assert not strtobool(pyvenv_config["include-system-site-packages"])
 
 
+# TODO: pytest.param(("--upgrade",), id="upgrade"),
+#       pytest.param(("-U",), id="upgrade short"),
+
+
 @pytest.mark.parametrize("tests", [True, False])
 @pytest.mark.parametrize(
 		"extra_args",
