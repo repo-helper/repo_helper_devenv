@@ -2,12 +2,12 @@
 #
 #  __init__.py
 """
-Create virtual environments with repo-helper.
+Create virtual environments with ``repo-helper``.
 
 .. TODO:: Install extras
 """
 #
-#  Copyright © 2020 Dominic Davis-Foster <dominic@davis-foster.co.uk>
+#  Copyright © 2020-2021 Dominic Davis-Foster <dominic@davis-foster.co.uk>
 #
 #  Permission is hereby granted, free of charge, to any person obtaining a copy
 #  of this software and associated documentation files (the "Software"), to deal
@@ -26,7 +26,7 @@ Create virtual environments with repo-helper.
 #  DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
 #  OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
 #  OR OTHER DEALINGS IN THE SOFTWARE.
-
+#
 #  Parts based on virtualenv
 #  https://github.com/pypa/virtualenv/blob/main/LICENSE
 #  Copyright 2020 The virtualenv developers
@@ -35,32 +35,28 @@ Create virtual environments with repo-helper.
 
 # stdlib
 import os
-import sys
-from typing import Dict, Optional
+from typing import Dict
 
 # 3rd party
 import click
-import repo_helper
+import shippinglabel
 import virtualenv  # type: ignore
-from click import ClickException, Context, Option
-from consolekit.options import colour_option, flag_option, verbose_option, version_option
-from consolekit.terminal_colours import Fore, resolve_color_default
+from click import ClickException
+from deprecation_alias import deprecated
 from domdf_python_tools.paths import PathPlus
-from domdf_python_tools.stringlist import DelimitedList
 from domdf_python_tools.typing import PathLike
-from repo_helper.cli import cli_command
 from repo_helper.core import RepoHelper
 from virtualenv.run import session_via_cli  # type: ignore
 from virtualenv.run.session import Session  # type: ignore
 from virtualenv.seed.wheels import pip_wheel_env_run  # type: ignore
 
 __author__: str = "Dominic Davis-Foster"
-__copyright__: str = "2020 Dominic Davis-Foster"
+__copyright__: str = "2020-2021 Dominic Davis-Foster"
 __license__: str = "MIT License"
 __version__: str = "0.3.2"
 __email__: str = "dominic@davis-foster.co.uk"
 
-__all__ = ["mkdevenv", "devenv", "read_pyvenv", "install_requirements"]
+__all__ = ["mkdevenv", "read_pyvenv", "install_requirements"]
 
 virtualenv_version = tuple(map(int, virtualenv.__version__.split('.')))
 
@@ -69,52 +65,6 @@ if virtualenv_version >= (20, 4):
 
 	def pip_wheel_env_run(search_dirs, app_data):
 		return _pip_wheel_env_run(search_dirs, app_data, os.environ)
-
-
-def version_callback(ctx: Context, param: Option, value: int):
-	if not value or ctx.resilient_parsing:
-		return
-
-	parts = DelimitedList([f"repo_helper_devenv version {__version__}"])
-
-	if value > 1:
-		parts.extend([
-				f"virualenv {virtualenv.__version__}",
-				f"repo_helper {repo_helper.__version__}",
-				])
-
-	click.echo(f"{parts:, }", color=ctx.color)
-	ctx.exit()
-
-
-@verbose_option()
-@colour_option()
-@version_option(callback=version_callback)
-@flag_option(
-		"-U",
-		"--upgrade",
-		help="Upgrade all specified packages to the newest available version.",
-		)
-@click.argument(
-		"dest",
-		type=click.STRING,
-		default="venv",
-		)
-@cli_command()
-def devenv(dest: str = "venv", verbose: int = 0, colour: Optional[bool] = None, upgrade: bool = False):
-	"""
-	Create a virtualenv.
-	"""
-
-	ret = mkdevenv(PathPlus.cwd(), dest, verbose, upgrade=upgrade)
-
-	if ret:
-		sys.exit(ret)
-	else:
-		click.echo(
-				Fore.GREEN("Successfully created development virtualenv."),
-				color=resolve_color_default(colour),
-				)
 
 
 def mkdevenv(
@@ -252,6 +202,12 @@ def update_pyvenv(venv_dir: PathLike) -> None:
 			fp.write(f"{key}{value}\n")
 
 
+@deprecated(
+		deprecated_in="0.4.0",
+		removed_in="1.0.0",
+		current_version=__version__,
+		details="Use 'shippinglabel.read_pyvenv' instead.",
+		)
 def read_pyvenv(venv_dir: PathLike) -> Dict[str, str]:
 	"""
 	Reads the ``pyvenv.cfg`` for the given virtualenv, and returns a ``key: value`` mapping of its contents.
@@ -261,13 +217,4 @@ def read_pyvenv(venv_dir: PathLike) -> Dict[str, str]:
 	:param venv_dir:
 	"""
 
-	venv_dir = PathPlus(venv_dir)
-
-	pyvenv_config: Dict[str, str] = {}
-
-	for line in (venv_dir / "pyvenv.cfg").read_lines():
-		if line:
-			key, value, *_ = line.split(" = ")
-			pyvenv_config[key] = value
-
-	return pyvenv_config
+	return shippinglabel.read_pyvenv(venv_dir)

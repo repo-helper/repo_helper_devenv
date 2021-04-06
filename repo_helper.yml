@@ -1,7 +1,7 @@
 # Configuration for 'repo_helper' (https://github.com/domdfcoding/repo_helper)
 ---
 modname: 'repo_helper_devenv'
-copyright_years: '2020'
+copyright_years: '2020-2021'
 author: 'Dominic Davis-Foster'
 email: 'dominic@davis-foster.co.uk'
 username: 'repo-helper'
@@ -14,7 +14,7 @@ enable_conda: False
 
 entry_points:
  repo_helper.command:
-  - repo_helper_devenv=repo_helper_devenv:devenv
+  - repo_helper_devenv=repo_helper_devenv.cli:devenv
 
 keywords:
  - virtualenv

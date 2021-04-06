@@ -30,4 +30,4 @@ extras = "all"
 license-key = "MIT"
 
 [project.entry-points."repo_helper.command"]
-repo_helper_devenv = "repo_helper_devenv:devenv"
+repo_helper_devenv = "repo_helper_devenv.cli:devenv"

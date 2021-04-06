@@ -38,6 +38,7 @@ known_third_party = [
     "consolekit",
     "coverage",
     "coverage_pyver_pragma",
+    "deprecation_alias",
     "domdf_python_tools",
     "github",
     "pytest",
@@ -46,6 +47,7 @@ known_third_party = [
     "pytest_timeout",
     "repo_helper",
     "requests",
+    "shippinglabel",
     "virtualenv",
 ]
 known_first_party = "repo_helper_devenv"
