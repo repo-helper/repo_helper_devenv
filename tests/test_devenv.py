@@ -12,7 +12,8 @@ from dulwich.repo import Repo
 from pytest_regressions.file_regression import FileRegressionFixture
 
 # this package
-from repo_helper_devenv import __version__, devenv, read_pyvenv
+from repo_helper_devenv import __version__, read_pyvenv
+from repo_helper_devenv.cli import devenv
 
 
 def test_devenv(temp_repo: Repo):
@@ -83,8 +84,8 @@ def test_devenv(temp_repo: Repo):
 				pytest.param(("-v", ), id="verbose short"),
 				pytest.param(("-v", "--verbose"), id="very verbose short"),
 				pytest.param(("-vv", ), id="very verbose short short"),
-				pytest.param(("--verbose", "--upgrade",), id="verbose upgrade"),
-				pytest.param(("-vU",), id="verbose short upgrade short"),
+				pytest.param(("--verbose", "--upgrade"), id="verbose upgrade"),
+				pytest.param(("-vU", ), id="verbose short upgrade short"),
 				]
 		)
 def test_devenv_verbose(temp_repo: Repo, extra_args, tests):
