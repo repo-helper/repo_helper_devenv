@@ -43,7 +43,7 @@ import click
 import repo_helper
 import virtualenv  # type: ignore
 from click import ClickException, Context, Option
-from consolekit.options import colour_option, verbose_option, version_option
+from consolekit.options import colour_option, flag_option, verbose_option, version_option
 from consolekit.terminal_colours import Fore, resolve_color_default
 from domdf_python_tools.paths import PathPlus
 from domdf_python_tools.stringlist import DelimitedList
@@ -90,18 +90,23 @@ def version_callback(ctx: Context, param: Option, value: int):
 @verbose_option()
 @colour_option()
 @version_option(callback=version_callback)
+@flag_option(
+		"-U",
+		"--upgrade",
+		help="Upgrade all specified packages to the newest available version.",
+		)
 @click.argument(
 		"dest",
 		type=click.STRING,
 		default="venv",
 		)
 @cli_command()
-def devenv(dest: str = "venv", verbose: int = 0, colour: Optional[bool] = None):
+def devenv(dest: str = "venv", verbose: int = 0, colour: Optional[bool] = None, upgrade: bool = False):
 	"""
 	Create a virtualenv.
 	"""
 
-	ret = mkdevenv(PathPlus.cwd(), dest, verbose)
+	ret = mkdevenv(PathPlus.cwd(), dest, verbose, upgrade=upgrade)
 
 	if ret:
 		sys.exit(ret)
@@ -112,25 +117,42 @@ def devenv(dest: str = "venv", verbose: int = 0, colour: Optional[bool] = None):
 				)
 
 
-def mkdevenv(repo_dir: PathLike, venv_dir: PathLike = "venv", verbosity: int = 1) -> int:
+def mkdevenv(
+		repo_dir: PathLike,
+		venv_dir: PathLike = "venv",
+		verbosity: int = 1,
+		*,
+		upgrade: bool = False,
+		) -> int:
 	"""
 	Create a "devenv".
+
+	.. versionadded:: 0.3.2
 
 	:param repo_dir: The root of the repository to create the devenv for.
 	:param venv_dir: The directory to create the devenv in, relative to ``repo_dir``.
 	:param verbosity: The verbosity of the function. ``0`` = quiet, ``2`` = very verbose.
+	:param upgrade: Whether to upgrade all specified packages to the newest available version.
 
 	:rtype:
 
-	.. versionadded:: 0.3.2
+	.. versionchanged:: 0.4.0  Added the ``upgrade`` keyword-only argument.
 	"""
 
 	rh = RepoHelper(repo_dir)
 	rh.load_settings()
-	modname = rh.templates.globals["modname"]
 
 	venvdir = rh.target_repo / venv_dir
-	args = [str(venvdir), "--prompt", f"({modname}) ", "--seeder", "pip", "--download"]
+
+	args = [
+			str(venvdir),
+			"--prompt",
+			f"({rh.templates.globals['modname']}) ",
+			"--seeder",
+			"pip",
+			"--download",
+			]
+
 	if verbosity:
 		args.append("--verbose")
 	if verbosity >= 2:
@@ -147,7 +169,12 @@ def mkdevenv(repo_dir: PathLike, venv_dir: PathLike = "venv", verbosity: int = 1
 		if verbosity:
 			click.echo("Installing library requirements.")
 
-		install_requirements(of_session, rh.target_repo / "requirements.txt", verbosity=verbosity)
+		install_requirements(
+				of_session,
+				rh.target_repo / "requirements.txt",
+				verbosity=verbosity,
+				upgrade=upgrade,
+				)
 
 		if verbosity:
 			click.echo("Installing test requirements.")
@@ -156,7 +183,8 @@ def mkdevenv(repo_dir: PathLike, venv_dir: PathLike = "venv", verbosity: int = 1
 			install_requirements(
 					of_session,
 					rh.target_repo / rh.templates.globals["tests_dir"] / "requirements.txt",
-					verbosity=verbosity
+					verbosity=verbosity,
+					upgrade=upgrade,
 					)
 
 	if verbosity:
@@ -171,6 +199,8 @@ def install_requirements(
 		session: Session,
 		requirements_file: PathLike,
 		verbosity: int = 1,
+		*,
+		upgrade: bool = False,
 		):
 	"""
 	Install requirements into a virtualenv.
@@ -178,6 +208,9 @@ def install_requirements(
 	:param session:
 	:param requirements_file:
 	:param verbosity: The verbosity of the function. ``0`` = quiet, ``2`` = very verbose.
+	:param upgrade: Whether to upgrade all specified packages to the newest available version.
+
+	.. versionchanged:: 0.4.0  Added the ``upgrade`` keyword-only argument.
 	"""
 
 	cmd = [
@@ -194,6 +227,9 @@ def install_requirements(
 		cmd.append("--quiet")
 	elif verbosity > 1:
 		cmd.append("--verbose")
+
+	if upgrade:
+		cmd.append("--upgrade")
 
 	try:
 		session.seeder._execute(

@@ -83,6 +83,8 @@ def test_devenv(temp_repo: Repo):
 				pytest.param(("-v", ), id="verbose short"),
 				pytest.param(("-v", "--verbose"), id="very verbose short"),
 				pytest.param(("-vv", ), id="very verbose short short"),
+				pytest.param(("--verbose", "--upgrade",), id="verbose upgrade"),
+				pytest.param(("-vU",), id="verbose short upgrade short"),
 				]
 		)
 def test_devenv_verbose(temp_repo: Repo, extra_args, tests):
