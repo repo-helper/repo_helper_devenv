@@ -126,10 +126,10 @@ def mkdevenv(
 				upgrade=upgrade,
 				)
 
-		if verbosity:
-			click.echo("Installing test requirements.")
-
 		if rh.templates.globals["enable_tests"]:
+			if verbosity:
+				click.echo("Installing test requirements.")
+
 			install_requirements(
 					of_session,
 					rh.target_repo / rh.templates.globals["tests_dir"] / "requirements.txt",
@@ -170,7 +170,7 @@ def install_requirements(
 			"install",
 			"--disable-pip-version-check",
 			"-r",
-			requirements_file,
+			str(requirements_file, )
 			]
 
 	if verbosity < 1:
@@ -193,7 +193,7 @@ def install_requirements(
 def update_pyvenv(venv_dir: PathLike) -> None:
 	venv_dir = PathPlus(venv_dir)
 
-	pyvenv_config: Dict[str, str] = read_pyvenv(venv_dir)
+	pyvenv_config: Dict[str, str] = shippinglabel.read_pyvenv(venv_dir)
 	pyvenv_config["repo_helper_devenv"] = __version__
 
 	with (venv_dir / "pyvenv.cfg").open('w') as fp:
