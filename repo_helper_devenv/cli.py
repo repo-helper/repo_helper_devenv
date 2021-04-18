@@ -28,22 +28,18 @@ Create virtual environments with ``repo-helper``.
 
 # stdlib
 import sys
-from typing import TYPE_CHECKING, Optional
 
 # 3rd party
 import click
 from consolekit.options import colour_option, flag_option, verbose_option, version_option
+from consolekit.terminal_colours import ColourTrilean
+from domdf_python_tools.typing import PathLike
 from repo_helper.cli import cli_command
-
-if TYPE_CHECKING:
-	# 3rd party
-	from click import Context, Option
-	from domdf_python_tools.typing import PathLike
 
 __all__ = ["devenv", "version_callback"]
 
 
-def version_callback(ctx: "Context", param: "Option", value: int):  # noqa: D103
+def version_callback(ctx: click.Context, param: click.Option, value: int):  # noqa: D103
 	if not value or ctx.resilient_parsing:
 		return
 
@@ -82,9 +78,9 @@ def version_callback(ctx: "Context", param: "Option", value: int):  # noqa: D103
 		)
 @cli_command()
 def devenv(
-		dest: "PathLike" = "venv",
+		dest: PathLike = "venv",
 		verbose: int = 0,
-		colour: Optional[bool] = None,
+		colour: ColourTrilean = None,
 		upgrade: bool = False,
 		):
 	"""
