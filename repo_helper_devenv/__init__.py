@@ -34,17 +34,17 @@ Create virtual environments with ``repo-helper``.
 #
 
 # stdlib
-import os
+import types
 from typing import Dict
 
 # 3rd party
-import click
+import pyproject_devenv
 import shippinglabel
 import virtualenv  # type: ignore
-from click import ClickException
 from deprecation_alias import deprecated
 from domdf_python_tools.paths import PathPlus
 from domdf_python_tools.typing import PathLike
+from pyproject_devenv.config import ConfigDict
 from repo_helper.core import RepoHelper
 from virtualenv.run import session_via_cli  # type: ignore
 from virtualenv.run.session import Session  # type: ignore
@@ -60,11 +60,57 @@ __all__ = ["mkdevenv", "read_pyvenv", "install_requirements"]
 
 virtualenv_version = tuple(map(int, virtualenv.__version__.split('.')))
 
-if virtualenv_version >= (20, 4):
-	_pip_wheel_env_run = pip_wheel_env_run
 
-	def pip_wheel_env_run(search_dirs, app_data):
-		return _pip_wheel_env_run(search_dirs, app_data, os.environ)
+class _RepoHelperDevenv(pyproject_devenv._Devenv):
+
+	def __init__(
+			self,
+			project_dir: PathLike,
+			venv_dir: PathLike = "venv",
+			*,
+			verbosity: int = 1,
+			upgrade: bool = False,
+			):
+
+		rh = RepoHelper(project_dir)
+		rh.load_settings()
+
+		self.project_dir = rh.target_repo
+
+		self.config: ConfigDict = {
+				"name": rh.templates.globals["modname"],
+				"dependencies": [],
+				"optional_dependencies": rh.templates.globals["extras_require"],
+				"build_dependencies": None,
+				}
+
+		self.venv_dir = self.project_dir / venv_dir
+		self.verbosity: int = int(verbosity)
+		self.upgrade: bool = upgrade
+
+		# TODO: config option
+		self.extras_to_install = sorted(self.config["optional_dependencies"])
+
+	def install_project_requirements(self, of_session):
+		"""
+		Install the project's requirements/dependencies.
+
+		:param of_session:
+		"""
+
+		self.report_installing("project requirements")
+
+		self.install_requirements(
+				of_session,
+				requirements_file=self.project_dir / "requirements.txt",
+				)
+
+	def update_pyvenv(self) -> None:
+		"""
+		Read and update the ``pyvenv.cfg`` file of the virtualenv.
+		"""
+
+		update_pyvenv(self.venv_dir)
 
 
 def mkdevenv(
@@ -89,62 +135,14 @@ def mkdevenv(
 	.. versionchanged:: 0.4.0  Added the ``upgrade`` keyword-only argument.
 	"""
 
-	rh = RepoHelper(repo_dir)
-	rh.load_settings()
-
-	venvdir = rh.target_repo / venv_dir
-
-	args = [
-			str(venvdir),
-			"--prompt",
-			f"({rh.templates.globals['modname']}) ",
-			"--seeder",
-			"pip",
-			"--download",
-			]
-
-	if verbosity:
-		args.append("--verbose")
-	if verbosity >= 2:
-		args.append("--verbose")
-
-	of_session = session_via_cli(args)
-
-	if not of_session.seeder.enabled:  # pragma: no cover
-		return 1
-
-	with of_session:
-		of_session.run()
-
-		if verbosity:
-			click.echo("Installing library requirements.")
-
-		install_requirements(
-				of_session,
-				rh.target_repo / "requirements.txt",
-				verbosity=verbosity,
-				upgrade=upgrade,
-				)
-
-		if rh.templates.globals["enable_tests"]:
-			if verbosity:
-				click.echo("Installing test requirements.")
-
-			install_requirements(
-					of_session,
-					rh.target_repo / rh.templates.globals["tests_dir"] / "requirements.txt",
-					verbosity=verbosity,
-					upgrade=upgrade,
-					)
-
-	if verbosity:
-		click.echo('')
-
-	update_pyvenv(venvdir)
-
-	return 0
+	return _RepoHelperDevenv(repo_dir, venv_dir, verbosity=verbosity, upgrade=upgrade).create()
 
 
+@deprecated(
+		deprecated_in="0.5.0",
+		removed_in="1.0.0",
+		current_version=__version__,
+		)
 def install_requirements(
 		session: Session,
 		requirements_file: PathLike,
@@ -163,31 +161,15 @@ def install_requirements(
 	.. versionchanged:: 0.4.0  Added the ``upgrade`` keyword-only argument.
 	"""
 
-	cmd = [
-			session.creator.exe,
-			"-m",
-			"pip",
-			"install",
-			"--disable-pip-version-check",
-			"-r",
-			str(requirements_file, )
-			]
+	namespace = types.SimpleNamespace()
+	namespace.verbosity = int(verbosity)
+	namespace.upgrade = upgrade
 
-	if verbosity < 1:
-		cmd.append("--quiet")
-	elif verbosity > 1:
-		cmd.append("--verbose")
-
-	if upgrade:
-		cmd.append("--upgrade")
-
-	try:
-		session.seeder._execute(
-				[str(x) for x in cmd],
-				pip_wheel_env_run(session.seeder.extra_search_dir, session.seeder.app_data),
-				)
-	except RuntimeError:  # pragma: no cover
-		raise ClickException(f"Could not install from {requirements_file}")
+	_RepoHelperDevenv.install_requirements(
+			namespace,  # type: ignore
+			session,
+			requirements_file=requirements_file,
+			)
 
 
 def update_pyvenv(venv_dir: PathLike) -> None:

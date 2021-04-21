@@ -2,6 +2,7 @@ click>=7.1.2
 consolekit>=1.0.0
 deprecation-alias>=0.1.1
 domdf-python-tools>=1.5.0
+pyproject-devenv>=0.1.0
 repo-helper>=2020.12.7
 shippinglabel>=0.13.0
 virtualenv>=20.1.0

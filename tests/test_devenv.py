@@ -6,6 +6,7 @@ from typing import Dict
 # 3rd party
 import pytest
 from consolekit.testing import CliRunner, Result
+from domdf_python_tools.compat import PYPY
 from domdf_python_tools.paths import PathPlus, in_directory
 from domdf_python_tools.utils import strtobool
 from dulwich.repo import Repo
@@ -48,6 +49,8 @@ def test_devenv(temp_repo: Repo):
 
 	if sys.platform == "win32":
 		version_dirs = [(venv_dir / "Lib")]
+	elif PYPY:
+		version_dirs = [venv_dir]
 	else:
 		version_dirs = list((venv_dir / "lib").glob("py*"))
 
@@ -122,11 +125,11 @@ def test_devenv_verbose(temp_repo: Repo, extra_args, tests):
 		result: Result = runner.invoke(devenv, args=extra_args)
 		assert result.exit_code == 0
 
-	assert "Installing library requirements." in result.stdout
+	assert "Installing project requirements" in result.stdout
 	assert "Successfully created development virtualenv." in result.stdout
 
 	if tests:
-		assert "Installing test requirements." in result.stdout
+		assert "Installing test requirements" in result.stdout
 
 
 def test_version(tmp_pathplus, file_regression: FileRegressionFixture):
