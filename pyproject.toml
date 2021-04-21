@@ -7,12 +7,12 @@ name = "repo_helper_devenv"
 version = "0.4.0"
 description = "Create virtual environments with repo-helper."
 readme = "README.rst"
-keywords = [ "virtualenv", "repo-helper",]
+keywords = [ "repo-helper", "virtualenv",]
 dynamic = [ "requires-python", "classifiers", "dependencies",]
 
 [[project.authors]]
-email = "dominic@davis-foster.co.uk"
 name = "Dominic Davis-Foster"
+email = "dominic@davis-foster.co.uk"
 
 
 [project.license]
