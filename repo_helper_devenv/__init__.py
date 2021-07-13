@@ -197,6 +197,8 @@ def read_pyvenv(venv_dir: PathLike) -> Dict[str, str]:
 	.. versionadded:: 0.3.2
 
 	:param venv_dir:
+
+	:rtype:
 	"""
 
 	return shippinglabel.read_pyvenv(venv_dir)

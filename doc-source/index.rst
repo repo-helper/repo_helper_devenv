@@ -5,6 +5,7 @@ repo_helper_devenv
 .. start short_desc
 
 .. documentation-summary::
+	:meta:
 
 .. end short_desc
 
@@ -113,6 +114,24 @@ repo_helper_devenv
 .. end shields
 
 
+Installation
+----------------------
+
+
+.. start installation
+
+.. installation:: repo_helper_devenv
+	:pypi:
+	:github:
+
+.. end installation
+
+
+Contents
+-------------
+
+.. html-section::
+
 .. toctree::
 	:hidden:
 
@@ -120,13 +139,17 @@ repo_helper_devenv
 
 .. toctree::
 	:maxdepth: 3
-	:caption: Documentation
 
-	installation
 	usage
 	api
-	contributing
 	Source
+
+.. sidebar-links::
+	:caption: Links
+	:github:
+	:pypi: repo_helper_devenv
+
+	Contributing Guide <https://contributing.repo-helper.uk>
 
 .. start links
 
@@ -134,6 +157,6 @@ repo_helper_devenv
 
 	View the :ref:`Function Index <genindex>` or browse the `Source Code <_modules/index.html>`__.
 
-	`Browse the GitHub Repository <https://github.com/repo-helper/repo_helper_devenv>`__
+	:github:repo:`Browse the GitHub Repository <repo-helper/repo_helper_devenv>`
 
 .. end links
