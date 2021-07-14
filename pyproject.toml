@@ -24,11 +24,6 @@ Homepage = "https://github.com/repo-helper/repo_helper_devenv"
 "Source Code" = "https://github.com/repo-helper/repo_helper_devenv"
 Documentation = "https://repo_helper_devenv.readthedocs.io/en/latest"
 
-[tool.mkrecipe]
-conda-channels = [ "repo-helper",]
-extras = "all"
-license-key = "MIT"
-
 [tool.sphinx-pyproject]
 github_username = "repo-helper"
 github_repository = "repo_helper_devenv"
@@ -108,6 +103,13 @@ autodoc_exclude_members = [
     "__abstractmethods__",
     "__hash__",
 ]
+
+[tool.whey]
+base-classifiers = [ "Typing :: Typed",]
+python-versions = [ "3.6", "3.7", "3.8", "3.9",]
+python-implementations = [ "CPython",]
+platforms = [ "Windows", "macOS", "Linux",]
+license-key = "MIT"
 
 [project.entry-points."repo_helper.command"]
 repo_helper_devenv = "repo_helper_devenv.cli:devenv"

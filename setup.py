@@ -21,8 +21,8 @@ setup(
 		description="Create virtual environments with repo-helper.",
 		extras_require=extras_require,
 		install_requires=install_requires,
+		name="repo-helper-devenv",
 		py_modules=[],
-		version=__version__,
 		)
 
 shutil.rmtree("repo_helper_devenv.egg-info", ignore_errors=True)
