@@ -46,9 +46,7 @@ from domdf_python_tools.paths import PathPlus
 from domdf_python_tools.typing import PathLike
 from pyproject_devenv.config import ConfigDict
 from repo_helper.core import RepoHelper
-from virtualenv.run import session_via_cli  # type: ignore
 from virtualenv.run.session import Session  # type: ignore
-from virtualenv.seed.wheels import pip_wheel_env_run  # type: ignore
 
 __author__: str = "Dominic Davis-Foster"
 __copyright__: str = "2020-2021 Dominic Davis-Foster"

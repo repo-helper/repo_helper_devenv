@@ -15,7 +15,7 @@ from repo_helper_devenv import install_requirements
 
 
 @deprecation.fail_if_not_removed
-def test_install_requirements(capsys, tmp_pathplus: PathPlus):
+def test_install_requirements(tmp_pathplus: PathPlus):
 	args = [
 			str(tmp_pathplus / "venv"),
 			"--prompt",

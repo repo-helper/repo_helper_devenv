@@ -10,7 +10,6 @@ from domdf_python_tools.compat import PYPY
 from domdf_python_tools.paths import PathPlus, in_directory
 from domdf_python_tools.utils import strtobool
 from dulwich.repo import Repo
-from pytest_regressions.file_regression import FileRegressionFixture
 
 # this package
 from repo_helper_devenv import __version__, read_pyvenv
@@ -132,7 +131,7 @@ def test_devenv_verbose(temp_repo: Repo, extra_args, tests):
 		assert "Installing test requirements" in result.stdout
 
 
-def test_version(tmp_pathplus, file_regression: FileRegressionFixture):
+def test_version(tmp_pathplus):
 
 	with in_directory(tmp_pathplus):
 		runner = CliRunner()
@@ -142,7 +141,7 @@ def test_version(tmp_pathplus, file_regression: FileRegressionFixture):
 	assert result.stdout == f"repo_helper_devenv version {__version__}\n"
 
 
-def test_version_version(tmp_pathplus, file_regression: FileRegressionFixture):
+def test_version_version(tmp_pathplus):
 
 	with in_directory(tmp_pathplus):
 		runner = CliRunner()
