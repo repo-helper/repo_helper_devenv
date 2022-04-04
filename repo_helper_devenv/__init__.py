@@ -56,7 +56,7 @@ __email__: str = "dominic@davis-foster.co.uk"
 
 __all__ = ["mkdevenv", "read_pyvenv", "install_requirements"]
 
-virtualenv_version = tuple(map(int, virtualenv.__version__.split('.')))
+virtualenv_version = tuple(map(int, virtualenv.__version__.split('.')[:3]))
 
 
 class _RepoHelperDevenv(pyproject_devenv._Devenv):
