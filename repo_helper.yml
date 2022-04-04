@@ -12,6 +12,7 @@ short_desc: "Create virtual environments with repo-helper."
 
 use_whey: true
 enable_conda: False
+sphinx_html_theme: furo
 
 entry_points:
  repo_helper.command:
@@ -30,12 +31,8 @@ python_versions:
 
 extra_sphinx_extensions:
  - sphinx_click
- - sphinx_toolbox_experimental.html_section
  - sphinx_toolbox_experimental.needspace
  - sphinx_toolbox_experimental.missing_xref
-
-
-sphinx_html_theme: furo
 
 exclude_files:
  - contributing
