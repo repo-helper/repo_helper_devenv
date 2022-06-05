@@ -40,13 +40,13 @@ from typing import Dict
 # 3rd party
 import pyproject_devenv
 import shippinglabel
-import virtualenv  # type: ignore
+import virtualenv  # type: ignore[import]
 from deprecation_alias import deprecated
 from domdf_python_tools.paths import PathPlus
 from domdf_python_tools.typing import PathLike
 from pyproject_devenv.config import ConfigDict
 from repo_helper.core import RepoHelper
-from virtualenv.run.session import Session  # type: ignore
+from virtualenv.run.session import Session  # type: ignore[import]
 
 __author__: str = "Dominic Davis-Foster"
 __copyright__: str = "2020-2021 Dominic Davis-Foster"
@@ -89,7 +89,7 @@ class _RepoHelperDevenv(pyproject_devenv._Devenv):
 		# TODO: config option
 		self.extras_to_install = sorted(self.config["optional_dependencies"])
 
-	def install_project_requirements(self, of_session):
+	def install_project_requirements(self, of_session: Session) -> None:
 		"""
 		Install the project's requirements/dependencies.
 
@@ -147,7 +147,7 @@ def install_requirements(
 		verbosity: int = 1,
 		*,
 		upgrade: bool = False,
-		):
+		) -> None:
 	"""
 	Install requirements into a virtualenv.
 
@@ -164,7 +164,7 @@ def install_requirements(
 	namespace.upgrade = upgrade
 
 	_RepoHelperDevenv.install_requirements(
-			namespace,  # type: ignore
+			namespace,  # type: ignore[arg-type]
 			session,
 			requirements_file=requirements_file,
 			)

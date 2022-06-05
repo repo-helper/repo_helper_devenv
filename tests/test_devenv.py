@@ -1,7 +1,7 @@
 # stdlib
 import re
 import sys
-from typing import Dict
+from typing import Dict, Tuple
 
 # 3rd party
 import pytest
@@ -94,7 +94,7 @@ def test_devenv(temp_repo: Repo):
 				pytest.param(("-vU", ), id="verbose short upgrade short"),
 				]
 		)
-def test_devenv_verbose(temp_repo: Repo, extra_args, tests):
+def test_devenv_verbose(temp_repo: Repo, extra_args: Tuple[str], tests: bool):
 	lib_requirements = [
 			"click",
 			"flask",
@@ -131,7 +131,7 @@ def test_devenv_verbose(temp_repo: Repo, extra_args, tests):
 		assert "Installing test requirements" in result.stdout
 
 
-def test_version(tmp_pathplus):
+def test_version(tmp_pathplus: PathPlus):
 
 	with in_directory(tmp_pathplus):
 		runner = CliRunner()
@@ -141,7 +141,7 @@ def test_version(tmp_pathplus):
 	assert result.stdout == f"repo_helper_devenv version {__version__}\n"
 
 
-def test_version_version(tmp_pathplus):
+def test_version_version(tmp_pathplus: PathPlus):
 
 	with in_directory(tmp_pathplus):
 		runner = CliRunner()
