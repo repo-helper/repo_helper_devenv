@@ -31,7 +31,6 @@ python_versions:
 
 extra_sphinx_extensions:
  - sphinx_click
- - sphinx_toolbox_experimental.needspace
  - sphinx_toolbox_experimental.missing_xref
 
 exclude_files:
@@ -40,3 +39,4 @@ exclude_files:
 sphinx_conf_epilogue:
  - nitpicky = True
  - ignore_missing_xrefs = ["^virtualenv"]
+ - needspace_amount = r"5\baselineskip"

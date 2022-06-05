@@ -80,3 +80,4 @@ def setup(app):
 
 nitpicky = True
 ignore_missing_xrefs = ["^virtualenv"]
+needspace_amount = r"5\baselineskip"
