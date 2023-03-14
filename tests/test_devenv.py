@@ -66,7 +66,7 @@ def test_devenv(temp_repo: Repo):
 	pyvenv_config: Dict[str, str] = read_pyvenv(venv_dir)
 
 	assert "prompt" in pyvenv_config
-	assert pyvenv_config["prompt"] == "(repo_helper_demo) "
+	assert pyvenv_config["prompt"] == "repo_helper_demo"
 
 	assert "repo_helper_devenv" in pyvenv_config
 	assert pyvenv_config["repo_helper_devenv"] == __version__
