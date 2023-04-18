@@ -4,7 +4,7 @@ build-backend = "whey"
 
 [project]
 name = "repo_helper_devenv"
-version = "0.6.0"
+version = "0.6.1"
 description = "Create virtual environments with repo-helper."
 readme = "README.rst"
 keywords = [ "repo-helper", "virtualenv",]
