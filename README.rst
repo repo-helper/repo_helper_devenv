@@ -28,8 +28,8 @@ repo_helper_devenv
 	* - Other
 	  - |license| |language| |requires|
 
-.. |docs| image:: https://img.shields.io/readthedocs/repo_helper_devenv/latest?logo=read-the-docs
-	:target: https://repo_helper_devenv.readthedocs.io/en/latest
+.. |docs| image:: https://img.shields.io/readthedocs/repo-helper-devenv/latest?logo=read-the-docs
+	:target: https://repo-helper-devenv.readthedocs.io/en/latest
 	:alt: Documentation Build Status
 
 .. |docs_check| image:: https://github.com/repo-helper/repo_helper_devenv/workflows/Docs%20Check/badge.svg
