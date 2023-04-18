@@ -31,7 +31,7 @@ repo_helper_devenv
 		  - |license| |language| |requires|
 
 	.. |docs| rtfd-shield::
-		:project: repo_helper_devenv
+		:project: repo-helper-devenv
 		:alt: Documentation Build Status
 
 	.. |docs_check| actions-shield::
