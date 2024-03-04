@@ -53,5 +53,5 @@ known_third_party = [
     "shippinglabel",
     "virtualenv",
 ]
-known_first_party = "repo_helper_devenv"
+known_first_party = [ "repo_helper_devenv",]
 line_length = 115
