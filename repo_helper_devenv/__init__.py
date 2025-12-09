@@ -35,7 +35,7 @@ Create virtual environments with ``repo-helper``.
 
 # stdlib
 import types
-from typing import Dict
+from typing import Dict, Optional
 
 # 3rd party
 import pyproject_devenv
@@ -68,6 +68,7 @@ class _RepoHelperDevenv(pyproject_devenv._Devenv):
 			*,
 			verbosity: int = 1,
 			upgrade: bool = False,
+			python: Optional[str] = None
 			):
 
 		rh = RepoHelper(project_dir)
@@ -88,6 +89,7 @@ class _RepoHelperDevenv(pyproject_devenv._Devenv):
 
 		# TODO: config option
 		self.extras_to_install = sorted(self.config["optional_dependencies"])
+		self.python: Optional[str] = python
 
 	def install_project_requirements(self, of_session: Session) -> None:
 		"""
