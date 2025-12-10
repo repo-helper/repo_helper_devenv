@@ -3,11 +3,11 @@ import sys
 from typing import ContextManager
 
 # 3rd party
-import deprecation  # type: ignore[import]
+import deprecation  # type: ignore[import-untyped]
 import pytest
 from domdf_python_tools.compat import PYPY, nullcontext
 from domdf_python_tools.paths import PathPlus
-from virtualenv import session_via_cli  # type: ignore[import]
+from virtualenv import session_via_cli  # type: ignore[import-untyped]
 
 # this package
 import repo_helper_devenv

@@ -45,7 +45,7 @@ def version_callback(ctx: click.Context, param: click.Option, value: int) -> Non
 
 	# 3rd party
 	import repo_helper
-	import virtualenv  # type: ignore[import]
+	import virtualenv  # type: ignore[import-untyped]
 	from domdf_python_tools.stringlist import DelimitedList
 
 	# this package

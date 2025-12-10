@@ -40,13 +40,13 @@ from typing import Dict, Optional
 # 3rd party
 import pyproject_devenv
 import shippinglabel
-import virtualenv  # type: ignore[import]
+import virtualenv  # type: ignore[import-untyped]
 from deprecation_alias import deprecated
 from domdf_python_tools.paths import PathPlus
 from domdf_python_tools.typing import PathLike
 from pyproject_devenv.config import ConfigDict
 from repo_helper.core import RepoHelper
-from virtualenv.run.session import Session  # type: ignore[import]
+from virtualenv.run.session import Session  # type: ignore[import-untyped]
 
 __author__: str = "Dominic Davis-Foster"
 __copyright__: str = "2020-2021 Dominic Davis-Foster"
