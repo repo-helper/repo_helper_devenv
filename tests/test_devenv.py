@@ -92,7 +92,7 @@ def test_devenv(temp_repo: Repo):
 				pytest.param(("-vv", ), id="very verbose short short"),
 				pytest.param(("--verbose", "--upgrade"), id="verbose upgrade"),
 				pytest.param(("-vU", ), id="verbose short upgrade short"),
-				]
+				],
 		)
 def test_devenv_verbose(temp_repo: Repo, extra_args: Tuple[str], tests: bool):
 	lib_requirements = [
