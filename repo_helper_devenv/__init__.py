@@ -68,7 +68,7 @@ class _RepoHelperDevenv(pyproject_devenv._Devenv):
 			*,
 			verbosity: int = 1,
 			upgrade: bool = False,
-			python: Optional[str] = None
+			python: Optional[str] = None,
 			):
 
 		rh = RepoHelper(project_dir)
