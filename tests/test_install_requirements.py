@@ -19,7 +19,7 @@ def test_install_requirements(tmp_pathplus: PathPlus):
 	args = [
 			str(tmp_pathplus / "venv"),
 			"--prompt",
-			f"(demo_venv) ",
+			"(demo_venv) ",
 			"--seeder",
 			"pip",
 			"--download",

@@ -68,7 +68,7 @@ class _RepoHelperDevenv(pyproject_devenv._Devenv):
 			*,
 			verbosity: int = 1,
 			upgrade: bool = False,
-			python: Optional[str] = None
+			python: Optional[str] = None,
 			):
 
 		rh = RepoHelper(project_dir)
@@ -180,7 +180,7 @@ def update_pyvenv(venv_dir: PathLike) -> None:
 
 	with (venv_dir / "pyvenv.cfg").open('w') as fp:
 		for key, value in pyvenv_config.items():
-			value = f" = " + str(value).replace('\n', '\n\t')
+			value = " = " + str(value).replace('\n', '\n\t')
 			fp.write(f"{key}{value}\n")
 
 
