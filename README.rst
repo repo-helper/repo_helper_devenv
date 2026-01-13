@@ -103,7 +103,7 @@ repo_helper_devenv
 	:alt: Maintenance
 
 .. |pypi-downloads| image:: https://img.shields.io/pypi/dm/repo_helper_devenv
-	:target: https://pypi.org/project/repo_helper_devenv/
+	:target: https://pypistats.org/packages/repo_helper_devenv
 	:alt: PyPI - Downloads
 
 .. end shields
