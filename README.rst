@@ -119,6 +119,6 @@ To install with ``pip``:
 
 .. code-block:: bash
 
-	$ python -m pip install repo_helper_devenv
+	$ python -m pip install repo-helper-devenv
 
 .. end installation
