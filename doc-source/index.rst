@@ -123,6 +123,7 @@ Installation
 
 .. installation:: repo_helper_devenv
 	:pypi:
+	:pypi-name: repo-helper-devenv
 	:github:
 
 .. end installation
