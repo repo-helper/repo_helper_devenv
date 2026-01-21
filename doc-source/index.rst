@@ -69,22 +69,22 @@ repo_helper_devenv
 		:alt: CodeFactor Grade
 
 	.. |pypi-version| pypi-shield::
-		:project: repo_helper_devenv
+		:project: repo-helper-devenv
 		:version:
 		:alt: PyPI - Package Version
 
 	.. |supported-versions| pypi-shield::
-		:project: repo_helper_devenv
+		:project: repo-helper-devenv
 		:py-versions:
 		:alt: PyPI - Supported Python Versions
 
 	.. |supported-implementations| pypi-shield::
-		:project: repo_helper_devenv
+		:project: repo-helper-devenv
 		:implementations:
 		:alt: PyPI - Supported Implementations
 
 	.. |wheel| pypi-shield::
-		:project: repo_helper_devenv
+		:project: repo-helper-devenv
 		:wheel:
 		:alt: PyPI - Wheel
 
@@ -108,7 +108,7 @@ repo_helper_devenv
 		:alt: Maintenance
 
 	.. |pypi-downloads| pypi-shield::
-		:project: repo_helper_devenv
+		:project: repo-helper-devenv
 		:downloads: month
 		:alt: PyPI - Downloads
 
