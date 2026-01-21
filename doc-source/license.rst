@@ -7,4 +7,4 @@ License
 .. license-info:: MIT
 
 .. license::
-	:py: repo_helper_devenv
+	:py: repo-helper-devenv

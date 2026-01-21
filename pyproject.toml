@@ -3,7 +3,7 @@ requires = [ "whey",]
 build-backend = "whey"
 
 [project]
-name = "repo_helper_devenv"
+name = "repo-helper-devenv"
 version = "0.6.1"
 description = "Create virtual environments with repo-helper."
 readme = "README.rst"
@@ -111,6 +111,7 @@ python-versions = [ "3.7", "3.8", "3.9", "3.10", "3.11", "3.12",]
 python-implementations = [ "CPython",]
 platforms = [ "Windows", "macOS", "Linux",]
 license-key = "MIT"
+package = "repo_helper_devenv"
 
 [tool.mypy]
 python_version = "3.9"
