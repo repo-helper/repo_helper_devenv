@@ -7,7 +7,7 @@ import deprecation  # type: ignore[import-untyped]
 import pytest
 from domdf_python_tools.compat import PYPY, nullcontext
 from domdf_python_tools.paths import PathPlus
-from virtualenv import session_via_cli  # type: ignore[import-untyped]
+from virtualenv import session_via_cli
 
 # this package
 import repo_helper_devenv
